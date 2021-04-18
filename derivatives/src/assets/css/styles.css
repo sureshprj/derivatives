@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=PT+Mono&display=swap");
+.page-title {
+  font-size: 24px;
+  color: var(--v-primary-base);
+  text-transform: uppercase;
+  padding: 1rem 0rem 1rem 0rem;
+}
+.font-size-14{
+  font-size: 14px;
+}
+.borderless td {
+  border-bottom: 0 !important;
+}
+.card-title {
+  color: var(--v-primary-base);
+  font-size: 14px !important;
+}
+.dialog-title {
+  color: var(--v-primary-base);
+  background-color: #1d202c;
+  font-size: 14px !important;
+  text-transform: uppercase;
+  font-weight: 600 !important;
+}
+.dialog-container {
+  padding: 1rem 3rem 1rem 3rem;
+}
+
+.order-form-label {
+  color: var(--v-secondaryColor-base);
+  font-size: 12px;
+  line-height: 14px;
+}
+
+/* scrollbak */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+}
+::-webkit-scrollbar-corner {
+  background: var(--v-primaryBack-base);
+}
+::-webkit-scrollbar-track {
+  /* track */
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  background: var(--v-primaryBack-base);
+}
+::-webkit-scrollbar-thumb {
+  /* handle */
+  background: var(--v-secondaryBack-base);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+::-webkit-scrollbar-thumb:hover {
+  /* handle on hover */
+  background: var(--v-secondaryBack-base);
+}
+.primary-color-text {
+  color: var(--v-primaryColor-base);
+}
+.secondary-color-text {
+  color: var(--v-secondaryColor-base);
+}
+.success-color-text{
+  color: var(--v-success-base);
+}
+.theme--dark.v-text-field--solo > .v-input__control > .v-input__slot {
+  background-color: var(--v-fieldBack-base)
+}
+.relative {
+  position: relative;
+}
+
+.tab-item {
+  text-transform: capitalize;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
