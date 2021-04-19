@@ -9,23 +9,23 @@ import { getRelayer } from '../services/relayer'; */
 
 import * as orderHelper from "./order-creation";
 import { getExpirationTimeOrdersFromConfig } from "./time-utils";
-import { isWeth } from "./known-tokens";
+// import { isWeth } from "./known-tokens";
 /* import { OrderSide } from './types'; */
 
-import { signatureUtils } from "@emdx-dex/order-utils";
-import { MetamaskSubprovider } from "@0x/subproviders";
+// import { signatureUtils } from "@emdx-dex/order-utils";
+// import { MetamaskSubprovider } from "@0x/subproviders";
 
-const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+//const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 const ZERO = new BigNumber(0);
-const GWEI_IN_WEI = new BigNumber(1000000000);
-const DEFAULT_GAS_PRICE = GWEI_IN_WEI.multipliedBy(225);
-const FEE_RECIPIENT = ZERO_ADDRESS;
-const FEE_PERCENTAGE = ZERO;
+//const GWEI_IN_WEI = new BigNumber(1000000000);
+// const DEFAULT_GAS_PRICE = GWEI_IN_WEI.multipliedBy(225);
+// const FEE_RECIPIENT = ZERO_ADDRESS;
+// const FEE_PERCENTAGE = ZERO;
 const PROTOCOL_FEE_MULTIPLIER = 150000;
 
-import { Web3Wrapper } from "@0x/web3-wrapper";
-import { getWeb3Wrapper } from "../../services/web3_wrapper";
-import { getContractWrappers } from "../../services/contract_wrappers";
+//import { Web3Wrapper } from "@0x/web3-wrapper";
+//import { getWeb3Wrapper } from "../../services/web3_wrapper";
+//import { getContractWrappers } from "../../services/contract_wrappers";
 
 const Web3Utils = require("web3-utils");
 
@@ -138,25 +138,31 @@ export const createSignedOrder = async (
   side,
   transactionInfo
 ) => {
-  const ethAccount = transactionInfo.ethAccount;
-  const baseToken = transactionInfo.baseToken;
-  const quoteToken = transactionInfo.quoteToken;
+  return {
+    amount,
+    price,
+    side,
+    transactionInfo
+  }
+  // const ethAccount = transactionInfo.ethAccount;
+  // const baseToken = transactionInfo.baseToken;
+  // const quoteToken = transactionInfo.quoteToken;
 
-  const web3Wrapper = await getWeb3Wrapper();
+  // const web3Wrapper = await getWeb3Wrapper();
 
-  const order = await orderHelper.buildLimitOrder(
-    {
-      account: ethAccount,
-      amount,
-      price,
-      baseTokenAddress: baseToken,
-      quoteTokenAddress: quoteToken
-    },
-    side
-  );
+  // const order = await orderHelper.buildLimitOrder(
+  //   {
+  //     account: ethAccount,
+  //     amount,
+  //     price,
+  //     baseTokenAddress: baseToken,
+  //     quoteTokenAddress: quoteToken
+  //   },
+  //   side
+  // );
 
-  const provider = new MetamaskSubprovider(web3Wrapper.getProvider());
-  return signatureUtils.ecSignOrderAsync(provider, order, ethAccount);
+  // const provider = new MetamaskSubprovider(web3Wrapper.getProvider());
+  // return signatureUtils.ecSignOrderAsync(provider, order, ethAccount);
 };
 
 export const getOrderWithTakerAndFeeConfigFromRelayer = async orderConfigRequest => {
@@ -171,120 +177,123 @@ export const getOrderWithTakerAndFeeConfigFromRelayer = async orderConfigRequest
 };
 
 export const submitMarketOrder = async (amount, side, data) => {
-  /*   return async ({ getContractWrappers, getWeb3Wrapper }) => { */
-  const { ethAccount, orders, quoteToken } = data;
-  console.log("Entro a submitMarketOrder", amount, side, data);
-
-  const ethBalance = BigNumber(
-    Web3Utils.toWei(BigNumber(data.ethBalance).toString(), "ether")
-  );
-
-  /*   amount = BigNumber(Web3Utils.toWei(amount.toString(), "ether")); */
-  const isBuy = side === "buy";
-  const [ordersToFill, amounts, canBeFilled] = buildMarketOrders(side, {
-    amount,
-    orders
-  });
-
-  if (canBeFilled) {
-    const contractWrappers = await getContractWrappers();
-
-    const ethAmountRequired = amounts.reduce((total, currentValue) => {
-      return total.plus(currentValue);
-    }, ZERO);
-
-    const protocolFee = calculateWorstCaseProtocolFee(
-      ordersToFill,
-      DEFAULT_GAS_PRICE
-    );
-
-    const affiliateFeeAmount = ethAmountRequired
-      .plus(protocolFee)
-      .multipliedBy(FEE_PERCENTAGE)
-      .integerValue(BigNumber.ROUND_CEIL);
-    const totalEthAmount = ethAmountRequired
-      .plus(protocolFee)
-      .plus(affiliateFeeAmount);
-    const isEthBalanceEnough = ethBalance.isGreaterThan(totalEthAmount);
-
-    let isMarketBuyForwarder =
-      isBuy && isWeth(quoteToken) && isEthBalanceEnough;
-    isMarketBuyForwarder = false;
-    const orderSignatures = ordersToFill.map(o => o.signature);
-
-    let txHash;
-    try {
-      if (isMarketBuyForwarder) {
-        txHash = await contractWrappers.forwarder
-          .marketBuyOrdersWithEth(
-            ordersToFill,
-            amount,
-            orderSignatures,
-            Web3Wrapper.toBaseUnitAmount(FEE_PERCENTAGE, 18),
-            FEE_RECIPIENT
-          )
-          .sendTransactionAsync({
-            from: ethAccount,
-            value: totalEthAmount,
-            ...getTransactionOptions(DEFAULT_GAS_PRICE)
-          });
-      } else {
-        if (isBuy) {
-          console.log("Entro a isBuy");
-          txHash = await contractWrappers.exchange
-            .marketBuyOrdersFillOrKill(ordersToFill, amount, orderSignatures)
-            .sendTransactionAsync({
-              from: ethAccount,
-              value: protocolFee,
-              ...getTransactionOptions(DEFAULT_GAS_PRICE)
-            });
-        } else {
-          console.log("Entro a isSell");
-          txHash = await contractWrappers.exchange
-            .marketSellOrdersFillOrKill(ordersToFill, amount, orderSignatures)
-            .sendTransactionAsync({
-              from: ethAccount,
-              value: protocolFee,
-              ...getTransactionOptions(DEFAULT_GAS_PRICE)
-            });
-        }
-      }
-    } catch (e) {
-      console.log("error", e);
-      throw e;
-    }
-
-    const web3Wrapper = await getWeb3Wrapper();
-    const tx = await web3Wrapper.awaitTransactionSuccessAsync(txHash);
-    console.log("Transaction result:", tx);
-    /*     // tslint:disable-next-line:no-floating-promises
-    dispatch(getOrderbookAndUserOrders());
-    // tslint:disable-next-line:no-floating-promises
-    dispatch(updateTokenBalances());
-    dispatch(
-      addNotifications([
-        {
-          id: txHash,
-          kind: NotificationKind.Market,
-          amount,
-          token: baseToken,
-          side,
-          tx,
-          timestamp: new Date()
-        }
-      ])
-    ); */
-
-    const amountInReturn = sumTakerAssetFillableOrders(
-      side,
-      ordersToFill,
-      amounts
-    );
-
-    return { txHash, amountInReturn };
-  } else {
-    console.log("There is no enough orders to fill");
+  return {
+    amount,side,data
   }
+  // /*   return async ({ getContractWrappers, getWeb3Wrapper }) => { */
+  // const { ethAccount, orders, quoteToken } = data;
+  // console.log("Entro a submitMarketOrder", amount, side, data);
+
+  // const ethBalance = BigNumber(
+  //   Web3Utils.toWei(BigNumber(data.ethBalance).toString(), "ether")
+  // );
+
+  // /*   amount = BigNumber(Web3Utils.toWei(amount.toString(), "ether")); */
+  // const isBuy = side === "buy";
+  // const [ordersToFill, amounts, canBeFilled] = buildMarketOrders(side, {
+  //   amount,
+  //   orders
+  // });
+
+  // if (canBeFilled) {
+  //   const contractWrappers = await getContractWrappers();
+
+  //   const ethAmountRequired = amounts.reduce((total, currentValue) => {
+  //     return total.plus(currentValue);
+  //   }, ZERO);
+
+  //   const protocolFee = calculateWorstCaseProtocolFee(
+  //     ordersToFill,
+  //     DEFAULT_GAS_PRICE
+  //   );
+
+  //   const affiliateFeeAmount = ethAmountRequired
+  //     .plus(protocolFee)
+  //     .multipliedBy(FEE_PERCENTAGE)
+  //     .integerValue(BigNumber.ROUND_CEIL);
+  //   const totalEthAmount = ethAmountRequired
+  //     .plus(protocolFee)
+  //     .plus(affiliateFeeAmount);
+  //   const isEthBalanceEnough = ethBalance.isGreaterThan(totalEthAmount);
+
+  //   let isMarketBuyForwarder =
+  //     isBuy && isWeth(quoteToken) && isEthBalanceEnough;
+  //   isMarketBuyForwarder = false;
+  //   const orderSignatures = ordersToFill.map(o => o.signature);
+
+  //   let txHash;
+  //   try {
+  //     if (isMarketBuyForwarder) {
+  //       txHash = await contractWrappers.forwarder
+  //         .marketBuyOrdersWithEth(
+  //           ordersToFill,
+  //           amount,
+  //           orderSignatures,
+  //           Web3Wrapper.toBaseUnitAmount(FEE_PERCENTAGE, 18),
+  //           FEE_RECIPIENT
+  //         )
+  //         .sendTransactionAsync({
+  //           from: ethAccount,
+  //           value: totalEthAmount,
+  //           ...getTransactionOptions(DEFAULT_GAS_PRICE)
+  //         });
+  //     } else {
+  //       if (isBuy) {
+  //         console.log("Entro a isBuy");
+  //         txHash = await contractWrappers.exchange
+  //           .marketBuyOrdersFillOrKill(ordersToFill, amount, orderSignatures)
+  //           .sendTransactionAsync({
+  //             from: ethAccount,
+  //             value: protocolFee,
+  //             ...getTransactionOptions(DEFAULT_GAS_PRICE)
+  //           });
+  //       } else {
+  //         console.log("Entro a isSell");
+  //         txHash = await contractWrappers.exchange
+  //           .marketSellOrdersFillOrKill(ordersToFill, amount, orderSignatures)
+  //           .sendTransactionAsync({
+  //             from: ethAccount,
+  //             value: protocolFee,
+  //             ...getTransactionOptions(DEFAULT_GAS_PRICE)
+  //           });
+  //       }
+  //     }
+  //   } catch (e) {
+  //     console.log("error", e);
+  //     throw e;
+  //   }
+
+  //   const web3Wrapper = await getWeb3Wrapper();
+  //   const tx = await web3Wrapper.awaitTransactionSuccessAsync(txHash);
+  //   console.log("Transaction result:", tx);
+  //   /*     // tslint:disable-next-line:no-floating-promises
+  //   dispatch(getOrderbookAndUserOrders());
+  //   // tslint:disable-next-line:no-floating-promises
+  //   dispatch(updateTokenBalances());
+  //   dispatch(
+  //     addNotifications([
+  //       {
+  //         id: txHash,
+  //         kind: NotificationKind.Market,
+  //         amount,
+  //         token: baseToken,
+  //         side,
+  //         tx,
+  //         timestamp: new Date()
+  //       }
+  //     ])
+  //   ); */
+
+  //   const amountInReturn = sumTakerAssetFillableOrders(
+  //     side,
+  //     ordersToFill,
+  //     amounts
+  //   );
+
+  //   return { txHash, amountInReturn };
+  // } else {
+  //   console.log("There is no enough orders to fill");
+  // }
   /*   }; */
 };
 
@@ -353,15 +362,16 @@ export const buildMarketOrders = (side, params) => {
 };
 
 export const cancelSignedOrder = async order => {
-  const contractWrappers = await getContractWrappers();
-  const web3Wrapper = await getWeb3Wrapper();
-  const tx = await contractWrappers.exchange
-    .cancelOrder(order)
-    .sendTransactionAsync({
-      from: order.makerAddress,
-      gasPrice: DEFAULT_GAS_PRICE
-    });
-  return web3Wrapper.awaitTransactionSuccessAsync(tx);
+  return Promise.resolve({order});
+  // const contractWrappers = await getContractWrappers();
+  // const web3Wrapper = await getWeb3Wrapper();
+  // const tx = await contractWrappers.exchange
+  //   .cancelOrder(order)
+  //   .sendTransactionAsync({
+  //     from: order.makerAddress,
+  //     gasPrice: DEFAULT_GAS_PRICE
+  //   });
+  // return web3Wrapper.awaitTransactionSuccessAsync(tx);
 };
 
 export const createOrders = async (opositeLimitOrders, data) => {

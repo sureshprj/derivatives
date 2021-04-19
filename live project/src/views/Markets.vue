@@ -324,23 +324,23 @@ export default Vue.extend({
   }),
   computed: {
     getHeader: function() {
-      let head:any = this.headers;
+      let head = this.headers;
       if (this.$vuetify.breakpoint.xlOnly) {
-        head.map((col:any) => {
+        head.map(col => {
           if (col.value == "data-table-expand") {
             col["width"] = "100px";
           }
         });
       }
       if (this.$vuetify.breakpoint.lgOnly) {
-        head.map((col:any) => {
+        head.map(col => {
           if (col.value == "data-table-expand") {
             col["width"] = "70px";
           }
         });
       }
       if (this.$vuetify.breakpoint.mdOnly) {
-        head.map((col:any) => {
+        head.map(col => {
           if (col.value == "data-table-expand") {
             col["width"] = "35px";
           }

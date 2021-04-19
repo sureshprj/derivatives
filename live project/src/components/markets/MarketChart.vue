@@ -563,17 +563,17 @@
 <script>
 import TradingVue from "trading-vue-js";
 import { mapActions, mapGetters } from "vuex";
-/* import tableChart from "./tableChart"; */
+ import tableChart from "./tableChart"; 
 import moment from "moment";
 const api = require("../../services/api");
 const { formatNumber } = require("../../lib/utils");
-/* import "vue-depth-chart"; */
+ import "vue-depth-chart";
 
 export default {
   name: "MarketChart",
   components: {
-    TradingVue
-    /*     tableChart, */
+    TradingVue,
+        tableChart, 
   },
   props: ["symbol", "instruments", "timeframe", "compression", "pairData"],
   data: () => ({

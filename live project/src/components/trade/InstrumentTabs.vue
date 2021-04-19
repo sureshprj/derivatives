@@ -48,16 +48,16 @@
 </template>
 
 <script>
-import { assetDataUtils } from "@0x/order-utils";
-import { CHAIN_ID as chainId } from "../../util/constants/main";
-import { getContractWrappers } from "../../services/contract_wrappers";
+// import { assetDataUtils } from "@0x/order-utils";
+// import { CHAIN_ID as chainId } from "../../util/constants/main";
+//import { getContractWrappers } from "../../services/contract_wrappers";
 import { getPairs } from "../../services/api";
-import { getWeb3Wrapper } from "../../services/web3_wrapper";
+//import { getWeb3Wrapper } from "../../services/web3_wrapper";
 import { mapActions, mapState } from "vuex";
-import { Web3ProviderEngine, MetamaskSubprovider } from "@0x/subproviders";
+//import { Web3ProviderEngine, MetamaskSubprovider } from "@0x/subproviders";
 import noop from "lodash/noop";
 import StyledPercentage from "../utils/StyledPercentage";
-import Web3Utils from "web3-utils";
+//import Web3Utils from "web3-utils";
 
 export default {
   components: {
@@ -89,72 +89,73 @@ export default {
     handlePairClick(event) {
       const { base, quote } = event.currentTarget.dataset;
 
-      this.$router.push(`/${base}/${quote}`).catch(noop);
-      this.setTradePair(base, quote);
+      this.$router.push(`/${base}/${quote}`);
+      //this.setTradePair(base, quote);
     },
     async setTradePair(base, quote) {
-      let baseToken;
-      let quoteToken;
-      let id;
+      return Promise.resolve({base,quote});
+      // let baseToken;
+      // let quoteToken;
+      // let id;
 
-      this.tokens.forEach(elem => {
-        if (elem.base.symbol == base) {
-          baseToken = elem.base.addresses[0][chainId];
-          /*           baseTokenAssetData = elem.base.assetData; */
-        }
-        if (elem.quote.symbol == quote) {
-          quoteToken = elem.quote.addresses[0][chainId];
-          /*           quoteTokenAssetData = elem.quote.assetData; */
-        }
-        if (elem.quote.symbol == quote && elem.base.symbol == base) {
-          id = elem.id;
-        }
-      });
+      // this.tokens.forEach(elem => {
+      //   if (elem.base.symbol == base) {
+      //     baseToken = elem.base.addresses[0][chainId];
+      //     /*           baseTokenAssetData = elem.base.assetData; */
+      //   }
+      //   if (elem.quote.symbol == quote) {
+      //     quoteToken = elem.quote.addresses[0][chainId];
+      //     /*           quoteTokenAssetData = elem.quote.assetData; */
+      //   }
+      //   if (elem.quote.symbol == quote && elem.base.symbol == base) {
+      //     id = elem.id;
+      //   }
+      // });
 
-      const baseAssetData = assetDataUtils.encodeERC20AssetData(baseToken);
-      const quoteAssetData = assetDataUtils.encodeERC20AssetData(quoteToken);
+      // const baseAssetData = assetDataUtils.encodeERC20AssetData(baseToken);
+      // const quoteAssetData = assetDataUtils.encodeERC20AssetData(quoteToken);
 
-      const providerEngine = new Web3ProviderEngine();
-      const web3Wrapper = await getWeb3Wrapper();
+      // const providerEngine = new Web3ProviderEngine();
+      // const web3Wrapper = await getWeb3Wrapper();
 
-      providerEngine.addProvider(
-        new MetamaskSubprovider(web3Wrapper.getProvider())
-      );
-      providerEngine.start();
-      const contractWrappers = await getContractWrappers();
+      // providerEngine.addProvider(
+      //   new MetamaskSubprovider(web3Wrapper.getProvider())
+      // );
+      // providerEngine.start();
+      // const contractWrappers = await getContractWrappers();
 
-      const makerAccounts = await web3Wrapper.getAvailableAddressesAsync();
-      const coinbase = makerAccounts[0];
+      // const makerAccounts = await web3Wrapper.getAvailableAddressesAsync();
+      // const coinbase = makerAccounts[0];
 
-      const rawBaseBalance = await contractWrappers.devUtils
-        .getBalance(coinbase, baseAssetData)
-        .callAsync();
-      const baseTokenBalance = Web3Utils.fromWei(String(rawBaseBalance));
+      // const rawBaseBalance = await contractWrappers.devUtils
+      //   .getBalance(coinbase, baseAssetData)
+      //   .callAsync();
+      // const baseTokenBalance = Web3Utils.fromWei(String(rawBaseBalance));
 
-      const rawQuoteBalance = await contractWrappers.devUtils
-        .getBalance(coinbase, quoteAssetData)
-        .callAsync();
-      const quoteTokenBalance = Web3Utils.fromWei(String(rawQuoteBalance));
+      // const rawQuoteBalance = await contractWrappers.devUtils
+      //   .getBalance(coinbase, quoteAssetData)
+      //   .callAsync();
+      // const quoteTokenBalance = Web3Utils.fromWei(String(rawQuoteBalance));
 
-      this.SET_TRADE_PAIR({
-        id,
-        baseToken,
-        quoteToken,
-        baseTokenBalance,
-        quoteTokenBalance,
-        lgBaseToken: baseAssetData,
-        lgQuoteToken: quoteAssetData,
-        data: {
-          baseTokenName: base,
-          quoteTokenName: quote,
-          lastPrice: 30100,
-          high24hs: 30200,
-          low24hs: 29100,
-          vol24hs: 540050
-        }
-      });
+      // this.SET_TRADE_PAIR({
+      //   id,
+      //   baseToken,
+      //   quoteToken,
+      //   baseTokenBalance,
+      //   quoteTokenBalance,
+      //   lgBaseToken: baseAssetData,
+      //   lgQuoteToken: quoteAssetData,
+      //   data: {
+      //     baseTokenName: base,
+      //     quoteTokenName: quote,
+      //     lastPrice: 30100,
+      //     high24hs: 30200,
+      //     low24hs: 29100,
+      //     vol24hs: 540050
+      //   }
+      // });
 
-      this.getPairRecentTrades({ base, quote });
+      // this.getPairRecentTrades({ base, quote });
     }
   },
   created() {

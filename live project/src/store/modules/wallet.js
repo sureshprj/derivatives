@@ -1,5 +1,5 @@
 import { BigNumber } from "@0x/utils";
-import { getTokens } from "../../services/wallet";
+//import { getTokens } from "../../services/wallet";
 import { toEther } from "../../util/orders/tokens";
 import get from "lodash/get";
 
@@ -32,7 +32,7 @@ export default {
       commit("BEFORE_FETCH");
 
       try {
-        const tokens = await getTokens();
+        const tokens = await Promise.resolve("token");
 
         commit("SUCCESS_FETCH", tokens);
       } catch (error) {

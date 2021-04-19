@@ -69,9 +69,9 @@
 import { ERC20TokenContract } from "@emdx-dex/contract-wrappers";
 import { assetDataUtils } from "@emdx-dex/order-utils";
 import { getAddressFromWallet } from "../util/wallet";
-import { getContractWrappers } from "../services/contract_wrappers";
+//import { getContractWrappers } from "../services/contract_wrappers";
 import { getTransactionOptions } from "../util/orders/order-creation";
-import { getWeb3Wrapper } from "../services/web3_wrapper";
+//import { getWeb3Wrapper } from "../services/web3_wrapper";
 import { toEther } from "../util/orders/tokens";
 import {
   DEFAULT_GAS_PRICE,
@@ -105,10 +105,10 @@ export default {
       web3Wrapper: null
     };
   },
-  async created() {
-    this.$store.dispatch("FETCH_WALLET");
-    this.contractWrappers = await getContractWrappers();
-    this.web3Wrapper = await getWeb3Wrapper();
+   created() {
+    // this.$store.dispatch("FETCH_WALLET");
+    // this.contractWrappers = await getContractWrappers();
+    // this.web3Wrapper = await getWeb3Wrapper();
   },
   computed: {
     tokens: function() {

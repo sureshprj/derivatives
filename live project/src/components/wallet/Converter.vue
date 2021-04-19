@@ -130,9 +130,9 @@
 <script>
 import { assetDataUtils } from "@emdx-dex/order-utils";
 import { DEFAULT_GAS_PRICE, ETH_DECIMALS } from "../../util/constants";
-import { getContractWrappers } from "../../services/contract_wrappers";
+//import { getContractWrappers } from "../../services/contract_wrappers";
 import { getTransactionOptions } from "../../util/orders/order-creation";
-import { getWeb3Wrapper } from "../../services/web3_wrapper";
+//import { getWeb3Wrapper } from "../../services/web3_wrapper";
 import { toEther, unitsInTokenAmount } from "../../util/orders/tokens";
 import ConvertNotification from "../notifications/Convert";
 import isEmpty from "lodash/isEmpty";
@@ -188,12 +188,12 @@ export default {
     }
   },
   created: async function() {
-    const contractWrappers = await getContractWrappers();
-    const web3Wrapper = await getWeb3Wrapper();
+    // const contractWrappers = await getContractWrappers();
+    // const web3Wrapper = await getWeb3Wrapper();
 
-    this.contractWrappers = contractWrappers;
-    this.convertEthValue = this.walletBalance;
-    this.web3Wrapper = web3Wrapper;
+    // this.contractWrappers = contractWrappers;
+    // this.convertEthValue = this.walletBalance;
+    // this.web3Wrapper = web3Wrapper;
   },
   methods: {
     handleClick(event) {

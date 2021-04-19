@@ -85,6 +85,7 @@
         </v-col>
 
         <v-col cols="12" md="5">
+         
           <market-order-book :orders="orderbook"> </market-order-book>
         </v-col>
       </v-row>
