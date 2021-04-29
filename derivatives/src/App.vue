@@ -1,25 +1,28 @@
 <template>
   <v-app>
     <Navbar />
+    <ContentBar />
     <v-main>
       <!-- <router-view class="background"></router-view> -->
-      <div>Content Section</div>
+      <!-- <div>Content Section</div> -->
     </v-main>
   </v-app>
 </template>
 
 <script>
 import Navbar from "./components/Navbar";
+import ContentBar from "./components/ContentBar";
 
 export default {
   name: "App",
 
   components: {
-    Navbar
+    Navbar,
+    ContentBar,
   },
 
   data: () => ({
     //
-  })
+  }),
 };
 </script>
