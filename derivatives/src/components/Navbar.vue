@@ -7,15 +7,16 @@
       slider-color="success"
       color="primaryColor"
     >
-      <v-tab text to="/">Trade</v-tab>
-      <v-tab text :to="'/orders/'">Orders</v-tab>
-      <v-tab text :to="'/markets/'">Markets</v-tab>
+      <v-tab class="nav-bar" text :to="'/markets/'">Markets</v-tab>
+      <v-tab class="nav-bar" text to="/">Trade</v-tab>
+      <v-tab class="nav-bar" text :to="'/orders/'">Orders</v-tab>
+      <v-tab class="nav-bar" text :to="'/markets/'">Holdings</v-tab>
     </v-tabs>
     <v-spacer></v-spacer>
     <WalletBalance />
     <ConnectWallet />
-    <Notifications :notifications="notifications" />
-    <div class="d-flex align-center mx-3">
+    <!-- <Notifications :notifications="notifications" /> -->
+    <!-- <div class="d-flex align-center mx-3">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
           <img
@@ -27,7 +28,7 @@
         </template>
         <span>Help</span>
       </v-tooltip>
-    </div>
+    </div> -->
 
     <div class="d-flex align-center mt-2">
       <v-select
@@ -57,13 +58,13 @@
 <script>
 import WalletBalance from "./navbar/walletBalance";
 import ConnectWallet from "./navbar/connectWallet";
-import Notifications from "./navbar/notifications";
+// import Notifications from "./navbar/notifications";
 
 export default {
   components: {
     ConnectWallet,
-    Notifications,
-    WalletBalance
+    // Notifications,
+    WalletBalance,
   },
   data() {
     return {
@@ -71,16 +72,16 @@ export default {
         {
           text: "Wallet 0x3f90...fc8Ad3 connected",
           status: "success",
-          timestamp: "19-01-2021"
+          timestamp: "19-01-2021",
         },
         {
           text: "BUY Order #12345678 was canceled",
           status: "error",
-          timestamp: "19-01-2021"
-        }
-      ]
+          timestamp: "19-01-2021",
+        },
+      ],
     };
-  }
+  },
 };
 </script>
 
@@ -93,5 +94,8 @@ export default {
 }
 .app-bar {
   z-index: 99999999 !important;
+}
+.nav-bar {
+  width: 140px;
 }
 </style>
