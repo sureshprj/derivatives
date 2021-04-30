@@ -15,8 +15,8 @@
     <v-spacer></v-spacer>
     <WalletBalance />
     <ConnectWallet />
-    <!-- <Notifications :notifications="notifications" /> -->
-    <!-- <div class="d-flex align-center mx-3">
+    <Notifications :notifications="notifications" />
+    <div class="d-flex align-center mx-3">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
           <img
@@ -28,7 +28,7 @@
         </template>
         <span>Help</span>
       </v-tooltip>
-    </div> -->
+    </div>
 
     <div class="d-flex align-center mt-2">
       <v-select
@@ -58,12 +58,12 @@
 <script>
 import WalletBalance from "./navbar/walletBalance";
 import ConnectWallet from "./navbar/connectWallet";
-// import Notifications from "./navbar/notifications";
+import Notifications from "./navbar/notifications";
 
 export default {
   components: {
     ConnectWallet,
-    // Notifications,
+    Notifications,
     WalletBalance,
   },
   data() {

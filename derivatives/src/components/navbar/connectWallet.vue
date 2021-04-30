@@ -2,7 +2,7 @@
   <div>
     <div v-if="coinbase" class="d-flex align-center">
       <router-link to="/wallet">
-        <!-- <div class="e-icon mr-3 mt-1">
+        <div class="e-icon mr-3 mt-1">
           <svg
             width="22"
             height="22"
@@ -14,9 +14,9 @@
               d="M21.8895 10.2485H20.8339V5.39296C20.8339 4.2289 19.8869 3.2819 18.7229 3.2819H17.2933L15.8303 0.651505C15.6073 0.249512 15.183 0 14.7228 0C14.5083 0 14.2955 0.0553158 14.1076 0.159575L8.493 3.28183H2.22142C1.05736 3.28183 0.110352 4.22884 0.110352 5.3929V19.8889C0.110352 21.0529 1.05736 21.9999 2.22142 21.9999H18.7229C19.8869 21.9999 20.8339 21.0529 20.8339 19.8889V15.6316H21.8895V10.2485ZM18.7229 4.12628C19.3731 4.12628 19.9042 4.62025 19.9756 5.25231H18.3889L17.7631 4.12628H18.7229ZM14.5184 0.897601C14.7164 0.786575 14.9829 0.864228 15.0922 1.06145L17.4228 5.25192H6.68761L14.5184 0.897601ZM19.9895 19.8889C19.9895 20.5872 19.4212 21.1555 18.7228 21.1555H2.22142C1.52307 21.1555 0.954739 20.5872 0.954739 19.8889V5.39296C0.954739 4.69462 1.52307 4.12628 2.22142 4.12628H6.9747L4.94976 5.25238H2.48532C2.25184 5.25238 2.06309 5.44151 2.06309 5.6746C2.06309 5.90769 2.25184 6.09683 2.48532 6.09683H3.43107H18.8584H19.9895V10.2489H16.9019C15.468 10.2489 14.301 11.4159 14.301 12.8497V13.0313C14.301 14.4652 15.468 15.6321 16.9019 15.6321H19.9895V19.8889ZM21.045 14.7873H20.8339H16.9019C15.9333 14.7873 15.1454 13.9994 15.1454 13.0308V12.8492C15.1454 11.8807 15.9332 11.0928 16.9019 11.0928H20.8339H21.045V14.7873ZM18.1951 12.9747C18.1951 13.4898 17.7779 13.9069 17.2629 13.9069C16.7477 13.9069 16.3306 13.4898 16.3306 12.9747C16.3306 12.4597 16.7478 12.0425 17.2629 12.0425C17.778 12.0424 18.1951 12.46 18.1951 12.9747Z"
               fill="white"
             />
-          </svg> -->
-        <!-- </div> -->
-        <div class="e-icon mr-3 mt-1 admin">
+          </svg>
+        </div>
+        <!-- <div class="e-icon mr-3 mt-1 admin">
           <img
             src="../../assets/navbar/vector-up.svg"
             alt=""
@@ -25,17 +25,17 @@
           <img src="../../assets/navbar/vector-down.svg" alt="" />
           <img src="../../assets/navbar/vector-up.svg" alt="" />
           <span>Admin</span>
-        </div>
+        </div> -->
       </router-link>
       <div class="d-flex-column align-center" style="margin: 0 20px">
-        <img
+        <!-- <img
           class="help-icon"
           src="../../assets/navbar/help-icon.svg"
           alt=""
           v-bind="attrs"
           v-on="on"
-        />
-        <!-- <div class="d-flex align-center">
+        /> -->
+        <div class="d-flex align-center">
           <svg
             width="12"
             height="12"
@@ -55,9 +55,9 @@
           <p v-if="ethBalance" class="account-network mb-0 ml-1">
             Connected ({{ network }})
           </p>
-        </div> -->
+        </div>
 
-        <!-- <div class="d-flex align-center">
+        <div class="d-flex align-center">
           <a
             :href="'https://etherscan.io/address/' + coinbase"
             class="clear-link"
@@ -108,11 +108,11 @@
             </template>
             <span>Copied!</span>
           </v-tooltip>
-        </div> -->
+        </div>
       </div>
-      <div class="user-icon">
+      <!-- <div class="user-icon">
         <img src="../../assets/navbar/user.svg" alt="" />
-      </div>
+      </div> -->
       <div class="ml-3">
         <v-menu :nudge-width="200" offset-y open-on-hover close-delay="500">
           <template v-slot:activator="{ on, attrs }">
@@ -189,7 +189,7 @@
           </v-card>
         </v-menu>
       </div>
-      <!-- <v-divider class="mx-4" vertical></v-divider> -->
+      <v-divider class="mx-4" vertical></v-divider>
     </div>
     <div v-else class="d-flex align-center mr-4">
       <img
