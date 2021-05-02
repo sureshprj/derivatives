@@ -3,8 +3,7 @@
     <Navbar />
     <ContentBar />
     <v-main>
-      <!-- <router-view class="background"></router-view> -->
-      <!-- <div>Content Section</div> -->
+      <router-view class="background"></router-view>
     </v-main>
   </v-app>
 </template>
